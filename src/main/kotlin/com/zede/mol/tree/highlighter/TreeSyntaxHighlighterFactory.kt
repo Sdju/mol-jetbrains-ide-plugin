@@ -1,4 +1,4 @@
-package com.zede.mol.tree
+package com.zede.mol.tree.highlighter
 
 import com.intellij.openapi.fileTypes.SyntaxHighlighter
 import com.intellij.openapi.fileTypes.SyntaxHighlighterFactory
