@@ -66,9 +66,8 @@ class TreeLexer implements FlexLexer {
   private static final int [] ZZ_CMAP_BLOCKS = zzUnpackcmap_blocks();
 
   private static final String ZZ_CMAP_BLOCKS_PACKED_0 =
-    "\11\0\1\1\1\2\1\3\1\4\1\5\22\0\1\6"+
-    "\1\7\1\0\1\7\26\0\1\10\2\0\1\10\36\0"+
-    "\1\11\50\0\1\3\u01a2\0\2\3\326\0\u0100\12";
+    "\11\0\1\1\1\2\2\0\1\3\22\0\1\4\73\0"+
+    "\1\5\u03a3\0";
 
   private static int [] zzUnpackcmap_blocks() {
     int [] result = new int[1024];
@@ -95,12 +94,10 @@ class TreeLexer implements FlexLexer {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\2\0\1\1\1\2\1\1\1\3\1\4\1\5\1\6"+
-    "\2\7\1\6\1\7\1\5\1\0\2\3\1\0\1\6"+
-    "\1\2\1\6";
+    "\1\0\1\1\1\2\1\3\1\4\1\5\1\6\1\1";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[21];
+    int [] result = new int[8];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -125,12 +122,10 @@ class TreeLexer implements FlexLexer {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\13\0\26\0\41\0\54\0\67\0\102\0\115"+
-    "\0\130\0\143\0\41\0\156\0\171\0\204\0\115\0\217"+
-    "\0\232\0\204\0\245\0\156\0\260";
+    "\0\0\0\6\0\14\0\22\0\22\0\30\0\22\0\36";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[21];
+    int [] result = new int[8];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -153,24 +148,11 @@ class TreeLexer implements FlexLexer {
   private static final int [] ZZ_TRANS = zzUnpacktrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\1\3\2\4\1\5\1\4\1\5\1\4\1\6\1\7"+
-    "\1\10\1\3\1\11\1\12\1\13\1\14\1\13\1\14"+
-    "\1\15\2\11\1\16\1\11\1\3\2\0\1\3\1\0"+
-    "\1\3\1\0\1\3\1\0\1\17\1\3\1\0\6\4"+
-    "\4\0\1\3\2\4\1\5\1\4\1\5\1\4\1\3"+
-    "\1\0\1\17\1\3\1\6\1\20\1\0\1\6\1\20"+
-    "\1\3\1\20\1\6\1\20\1\21\1\6\21\0\1\3"+
-    "\4\0\2\11\1\0\1\11\1\0\4\11\1\22\2\11"+
-    "\1\12\1\15\1\23\1\15\1\23\1\12\2\11\1\22"+
-    "\2\11\1\24\1\4\1\24\1\4\2\24\2\11\1\22"+
-    "\1\11\1\0\2\15\1\4\1\15\1\4\1\15\4\0"+
-    "\5\11\1\25\4\11\1\0\2\20\1\0\2\20\1\0"+
-    "\7\20\1\0\2\20\1\0\1\6\4\20\1\11\1\23"+
-    "\1\4\1\23\1\4\2\23\2\11\1\22\5\11\1\0"+
-    "\4\11\1\22\1\11";
+    "\1\3\1\4\1\5\1\0\1\6\1\7\2\10\1\5"+
+    "\3\10\1\3\17\0\1\6\1\0\2\10\1\0\3\10";
 
   private static int [] zzUnpacktrans() {
-    int [] result = new int[187];
+    int [] result = new int[36];
     int offset = 0;
     offset = zzUnpacktrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -208,10 +190,10 @@ class TreeLexer implements FlexLexer {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\2\0\4\1\1\11\7\1\1\0\2\1\1\0\3\1";
+    "\1\0\2\1\2\11\1\1\1\11\1\1";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[21];
+    int [] result = new int[8];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -533,40 +515,35 @@ class TreeLexer implements FlexLexer {
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1:
-            { yybegin(YYINITIAL); return TreeTypes.KEY;
-            }
-          // fall through
-          case 8: break;
-          case 2:
-            { yybegin(YYINITIAL); return TreeTypes.WHITE_SPACE;
-            }
-          // fall through
-          case 9: break;
-          case 3:
-            { yybegin(YYINITIAL); return TreeTypes.COMMENT;
-            }
-          // fall through
-          case 10: break;
-          case 4:
-            { yybegin(WAITING_VALUE); return TreeTypes.SEPARATOR;
-            }
-          // fall through
-          case 11: break;
-          case 5:
-            { return TreeTypes.BAD_CHARACTER;
-            }
-          // fall through
-          case 12: break;
-          case 6:
             { yybegin(YYINITIAL); return TreeTypes.VALUE;
             }
           // fall through
-          case 13: break;
-          case 7:
-            { yybegin(WAITING_VALUE); return TreeTypes.WHITE_SPACE;
+          case 7: break;
+          case 2:
+            { yybegin(YYINITIAL); return TreeTypes.NAME;
             }
           // fall through
-          case 14: break;
+          case 8: break;
+          case 3:
+            { return TokenType.BAD_CHARACTER;
+            }
+          // fall through
+          case 9: break;
+          case 4:
+            { yybegin(YYINITIAL); return TreeTypes.LF;
+            }
+          // fall through
+          case 10: break;
+          case 5:
+            { yybegin(YYINITIAL); return TokenType.WHITE_SPACE;
+            }
+          // fall through
+          case 11: break;
+          case 6:
+            { yybegin(WAITING_VALUE); return TreeTypes.VALUE_PREFIX;
+            }
+          // fall through
+          case 12: break;
           default:
             zzScanError(ZZ_NO_MATCH);
           }

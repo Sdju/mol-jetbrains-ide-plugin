@@ -12,7 +12,6 @@ import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
 import com.zede.mol.tree.parser.TreeParser
 import com.zede.mol.tree.psi.TreeTypes
-import org.intellij.sdk.language.psi.TreeFile
 
 class TreeParserDefinition : ParserDefinition {
     override fun createLexer(project: Project): Lexer {

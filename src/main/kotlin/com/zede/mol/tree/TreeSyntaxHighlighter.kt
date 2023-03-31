@@ -16,17 +16,14 @@ class TreeSyntaxHighlighter : SyntaxHighlighterBase() {
     }
 
     override fun getTokenHighlights(tokenType: IElementType): Array<TextAttributesKey> {
-        if (tokenType == TreeTypes.SEPARATOR) {
-            return SEPARATOR_KEYS
-        }
-        if (tokenType == TreeTypes.KEY) {
-            return KEY_KEYS
-        }
-        if (tokenType == TreeTypes.VALUE) {
+       if (tokenType == TreeTypes.VALUE) {
             return VALUE_KEYS
         }
-        if (tokenType == TreeTypes.COMMENT) {
-            return COMMENT_KEYS
+        if (tokenType == TreeTypes.NAME) {
+            return NAME_KEYS
+        }
+        if (tokenType == TreeTypes.VALUE_PREFIX) {
+            return VALUE_PREFIX_KEYS
         }
         return if (tokenType == TokenType.BAD_CHARACTER) {
             BAD_CHAR_KEYS
@@ -34,21 +31,15 @@ class TreeSyntaxHighlighter : SyntaxHighlighterBase() {
     }
 
     companion object {
-        val SEPARATOR = TextAttributesKey.createTextAttributesKey(
-            "SIMPLE_SEPARATOR",
-            DefaultLanguageHighlighterColors.OPERATION_SIGN
-        )
-        val KEY = TextAttributesKey.createTextAttributesKey("SIMPLE_KEY", DefaultLanguageHighlighterColors.KEYWORD)
         val VALUE = TextAttributesKey.createTextAttributesKey("SIMPLE_VALUE", DefaultLanguageHighlighterColors.STRING)
-        val COMMENT =
-            TextAttributesKey.createTextAttributesKey("SIMPLE_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT)
-        val BAD_CHARACTER =
-            TextAttributesKey.createTextAttributesKey("SIMPLE_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER)
+        val NAME = TextAttributesKey.createTextAttributesKey("NAME", DefaultLanguageHighlighterColors.CLASS_NAME)
+        val VALUE_PREFIX = TextAttributesKey.createTextAttributesKey("VALUE_PREFIX", DefaultLanguageHighlighterColors.CONSTANT)
+        val BAD_CHARACTER = TextAttributesKey.createTextAttributesKey("BAD_CHARACTER", DefaultLanguageHighlighterColors.INVALID_STRING_ESCAPE)
+
         private val BAD_CHAR_KEYS = arrayOf(BAD_CHARACTER)
-        private val SEPARATOR_KEYS = arrayOf(SEPARATOR)
-        private val KEY_KEYS = arrayOf(KEY)
         private val VALUE_KEYS = arrayOf(VALUE)
-        private val COMMENT_KEYS = arrayOf(COMMENT)
+        private val NAME_KEYS = arrayOf(NAME)
+        private val VALUE_PREFIX_KEYS = arrayOf(VALUE_PREFIX)
         private val EMPTY_KEYS = arrayOf<TextAttributesKey>()
     }
 }

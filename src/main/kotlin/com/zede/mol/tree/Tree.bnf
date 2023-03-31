@@ -13,8 +13,8 @@
   tokenTypeClass="com.zede.mol.tree.psi.TreeTokenType"
 }
 
-treeFile ::= item_*
+treeFile ::= ( item_ LF )* item_?
 
-private item_ ::= (property|COMMENT|CRLF)
+private item_ ::= INDENT* ( property SPACE* )* ( VALUE_PREFIX VALUE? )?
 
-property ::= (KEY? SEPARATOR VALUE?) | KEY
+property ::= NAME

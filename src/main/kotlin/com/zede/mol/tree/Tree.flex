@@ -16,30 +16,27 @@ import com.intellij.psi.TokenType;
 %eof{  return;
 %eof}
 
-CRLF=\R
-WHITE_SPACE=[\ \n\t\f]
-FIRST_VALUE_CHARACTER=[^ \n\f\\] | "\\"{CRLF} | "\\".
-VALUE_CHARACTER=[^\n\f\\] | "\\"{CRLF} | "\\".
-END_OF_LINE_COMMENT=("#"|"!")[^\r\n]*
-SEPARATOR=[:=]
-KEY_CHARACTER=[^:=\ \n\t\f\\] | "\\ "
+LF= [\n]
+INDENT= [\t]
+VALUE_PREFIX= [\\]
+SPACE= [ ]
+NAME= [^\\ \n\r\t]
+VALUE= [^\n]
 
 %state WAITING_VALUE
 
 %%
 
-<YYINITIAL> {END_OF_LINE_COMMENT}                           { yybegin(YYINITIAL); return TreeTypes.COMMENT; }
+<YYINITIAL> {NAME}+ { yybegin(YYINITIAL); return TreeTypes.NAME; }
 
-<YYINITIAL> {KEY_CHARACTER}+                                { yybegin(YYINITIAL); return TreeTypes.KEY; }
+<YYINITIAL> {VALUE_PREFIX} { yybegin(WAITING_VALUE); return TreeTypes.VALUE_PREFIX; }
 
-<YYINITIAL> {SEPARATOR}                                     { yybegin(WAITING_VALUE); return TreeTypes.SEPARATOR; }
+<WAITING_VALUE> {LF} { yybegin(YYINITIAL); return TreeTypes.LF; }
 
-<WAITING_VALUE> {CRLF}({CRLF}|{WHITE_SPACE})+               { yybegin(YYINITIAL); return TreeTypes.WHITE_SPACE; }
+<WAITING_VALUE> {VALUE}* { yybegin(YYINITIAL); return TreeTypes.VALUE; }
 
-<WAITING_VALUE> {WHITE_SPACE}+                              { yybegin(WAITING_VALUE); return TreeTypes.WHITE_SPACE; }
+{LF} { yybegin(YYINITIAL); return TreeTypes.LF; }
 
-<WAITING_VALUE> {FIRST_VALUE_CHARACTER}{VALUE_CHARACTER}*   { yybegin(YYINITIAL); return TreeTypes.VALUE; }
+{SPACE}+ { yybegin(YYINITIAL); return TokenType.WHITE_SPACE; }
 
-({CRLF}|{WHITE_SPACE})+                                     { yybegin(YYINITIAL); return TreeTypes.WHITE_SPACE; }
-
-[^]                                                         { return TreeTypes.BAD_CHARACTER; }
+. { return TokenType.BAD_CHARACTER; }
