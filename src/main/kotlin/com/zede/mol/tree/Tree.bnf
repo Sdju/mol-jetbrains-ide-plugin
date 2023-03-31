@@ -1,0 +1,20 @@
+{
+  parserClass="com.zede.mol.tree.parser.TreeParser"
+
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  psiClassPrefix="Tree"
+  psiImplClassSuffix="Impl"
+  psiPackage="com.zede.mol.tree.psi"
+  psiImplPackage="com.zede.mol.tree.psi.impl"
+
+  elementTypeHolderClass="com.zede.mol.tree.psi.TreeTypes"
+  elementTypeClass="com.zede.mol.tree.psi.TreeElementType"
+  tokenTypeClass="com.zede.mol.tree.psi.TreeTokenType"
+}
+
+treeFile ::= item_*
+
+private item_ ::= (property|COMMENT|CRLF)
+
+property ::= (KEY? SEPARATOR VALUE?) | KEY
