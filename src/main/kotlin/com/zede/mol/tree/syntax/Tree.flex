@@ -17,7 +17,7 @@ import com.intellij.psi.TokenType;
 %eof}
 
 %{
-private int myIdentCount = 0;
+    private int prevDent = 0;
 %}
 
 LF= \n
@@ -30,36 +30,72 @@ VALUE= [^\n]
 %column
 %state WAITING_VALUE
 %state MAIN
+%state DENT
+%state DENT2
 
 %%
 <YYINITIAL> {
-    {INDENT}+ {
-        yybegin(MAIN);
-        myIdentCount += 1;
-        yypushback();
-        return TreeTypes.INDENT;
-   }
+    {NAME}+ { yybegin(MAIN); System.out.println("NAME(" + yytext() + ")"); return TreeTypes.NAME; }
+}
 
-    {NAME}+ {
-        yybegin(MAIN);
-        return TreeTypes.NAME;
+<MAIN> {
+    {NAME}+ { yybegin(MAIN); System.out.println("NAME(" + yytext() + ")"); return TreeTypes.NAME; }
+
+    {SPACE} { yybegin(MAIN); System.out.println("SPACE"); return TreeTypes.SPACE; }
+
+    {VALUE_PREFIX} { yybegin(WAITING_VALUE); System.out.println("VALUE_PREFIX"); return TreeTypes.VALUE_PREFIX; }
+}
+
+<WAITING_VALUE> {VALUE}* { yybegin(MAIN); System.out.println("VALUE(" + yytext() + ")"); return TreeTypes.VALUE; }
+
+<DENT, DENT2> {
+    \t* {
+        int dent = yylength();
+        if (dent == prevDent) {
+            if (dent == 0)
+                yybegin(YYINITIAL);
+            else
+                yybegin(MAIN);
+        } else if (dent > prevDent) {
+            yybegin(MAIN);
+            prevDent += 1;
+            System.out.println("INDENT");
+            return TreeTypes.INDENT;
+        } else {
+            yybegin(yystate() == DENT ? DENT2 : DENT);
+            prevDent -= 1;
+            yypushback(dent);
+            System.out.println("DEDENT");
+            return TreeTypes.DEDENT;
+        }
+    }
+
+    \n {
+        if (prevDent == 0) {
+            yybegin(YYINITIAL);
+            return TreeTypes.LF;
+        } else {
+            yybegin(yystate() == DENT ? DENT2 : DENT);
+            prevDent -= 1;
+            yypushback(1);
+            System.out.println("DEDENT LF");
+            return TreeTypes.DEDENT;
+        }
+    }
+
+    . {
+        if (prevDent == 0)
+            yybegin(YYINITIAL);
+        else
+            yybegin(MAIN);
+        yypushback(1);
     }
 }
-<MAIN> {
-    {NAME}+ { yybegin(MAIN); return TreeTypes.NAME; }
-
-    {SPACE}+ { yybegin(MAIN); return TreeTypes.SPACE; }
-
-    {VALUE_PREFIX} { yybegin(WAITING_VALUE); return TreeTypes.VALUE_PREFIX; }
-}
-
-<WAITING_VALUE> {VALUE}* { yybegin(YYINITIAL); return TreeTypes.VALUE; }
 
 {LF} {
-    if (myIdentCount == 0) {
-        yybegin(YYINITIAL);
-        return TreeTypes.LF;
-    }
+    System.out.println("LF");
+    yybegin(DENT);
+    return TreeTypes.LF;
 }
 
-. { return TokenType.BAD_CHARACTER; }
+. { System.out.println("BAD_CHARACTER"); return TokenType.BAD_CHARACTER; }
