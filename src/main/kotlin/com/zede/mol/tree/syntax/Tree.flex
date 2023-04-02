@@ -35,18 +35,18 @@ VALUE= [^\n]
 
 %%
 <YYINITIAL> {
-    {NAME}+ { yybegin(MAIN); System.out.println("NAME(" + yytext() + ")"); return TreeTypes.NAME; }
+    {NAME}+ { yybegin(MAIN); return TreeTypes.NAME; }
 }
 
 <MAIN> {
-    {NAME}+ { yybegin(MAIN); System.out.println("NAME(" + yytext() + ")"); return TreeTypes.NAME; }
+    {NAME}+ { yybegin(MAIN); return TreeTypes.NAME; }
 
-    {SPACE} { yybegin(MAIN); System.out.println("SPACE"); return TreeTypes.SPACE; }
+    {SPACE} { yybegin(MAIN); return TreeTypes.SPACE; }
 
-    {VALUE_PREFIX} { yybegin(WAITING_VALUE); System.out.println("VALUE_PREFIX"); return TreeTypes.VALUE_PREFIX; }
+    {VALUE_PREFIX} { yybegin(WAITING_VALUE); return TreeTypes.VALUE_PREFIX; }
 }
 
-<WAITING_VALUE> {VALUE}* { yybegin(MAIN); System.out.println("VALUE(" + yytext() + ")"); return TreeTypes.VALUE; }
+<WAITING_VALUE> {VALUE}* { yybegin(MAIN); return TreeTypes.VALUE; }
 
 <DENT, DENT2> {
     \t* {
@@ -59,13 +59,11 @@ VALUE= [^\n]
         } else if (dent > prevDent) {
             yybegin(MAIN);
             prevDent += 1;
-            System.out.println("INDENT");
             return TreeTypes.INDENT;
         } else {
             yybegin(yystate() == DENT ? DENT2 : DENT);
             prevDent -= 1;
             yypushback(dent);
-            System.out.println("DEDENT");
             return TreeTypes.DEDENT;
         }
     }
@@ -78,7 +76,6 @@ VALUE= [^\n]
             yybegin(yystate() == DENT ? DENT2 : DENT);
             prevDent -= 1;
             yypushback(1);
-            System.out.println("DEDENT LF");
             return TreeTypes.DEDENT;
         }
     }
@@ -92,7 +89,6 @@ VALUE= [^\n]
 }
 
 {LF} {
-    System.out.println("LF");
     if (zzMarkedPosL == zzEndReadL) {
         yypushback(1);
     }
@@ -100,4 +96,4 @@ VALUE= [^\n]
     return TreeTypes.LF;
 }
 
-. { System.out.println("BAD_CHARACTER(" + yystate() + ":" + yytext() + ")"); return TokenType.BAD_CHARACTER; }
+. { return TokenType.BAD_CHARACTER; }
