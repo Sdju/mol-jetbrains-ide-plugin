@@ -44,7 +44,7 @@ class TreeFoldingBuilder : FoldingBuilderEx(), DumbAware {
     }
 
     override fun getPlaceholderText(node: ASTNode): String? {
-        return "..."
+        return " ... "
     }
 
     override fun isCollapsedByDefault(node: ASTNode): Boolean {
