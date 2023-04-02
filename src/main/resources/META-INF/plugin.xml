@@ -34,6 +34,6 @@
 
         <codeStyleSettingsProvider implementation="com.zede.mol.tree.TreeCodeStyleSettingsProvider" />
         <langCodeStyleSettingsProvider implementation="com.zede.mol.tree.TreeLanguageCodeStyleSettingsProvider" />
-        <lang.foldingBuilder language="Tree" implementationClass="org.intellij.sdk.language.TreeFoldingBuilder"/>
+        <lang.foldingBuilder language="Tree" implementationClass="com.zede.mol.tree.TreeFoldingBuilder"/>
     </extensions>
 </idea-plugin>
