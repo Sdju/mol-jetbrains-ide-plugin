@@ -34,15 +34,6 @@
 
         <codeStyleSettingsProvider implementation="com.zede.mol.tree.TreeCodeStyleSettingsProvider" />
         <langCodeStyleSettingsProvider implementation="com.zede.mol.tree.TreeLanguageCodeStyleSettingsProvider" />
-
-        <editorconfig.fileTypeSettingsProvider language="Tree">
-            <option name="editorconfig.configurations">
-                <array>
-                    <editorconfig>
-                        <option name="trim_trailing_whitespace">false</option>
-                    </editorconfig>
-                </array>
-            </option>
-        </editorconfig.fileTypeSettingsProvider>
+        <lang.foldingBuilder language="Tree" implementationClass="org.intellij.sdk.language.TreeFoldingBuilder"/>
     </extensions>
 </idea-plugin>
