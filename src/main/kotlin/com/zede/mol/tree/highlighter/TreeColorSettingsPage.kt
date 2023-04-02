@@ -19,13 +19,16 @@ class TreeColorSettingsPage : ColorSettingsPage {
     }
 
     override fun getDemoText(): String {
+        val WTF = '$'
         return """html
-@ xml:lang \ru
-head
-    title \Рога & Копыта
-body
-    h1 \Привет!
-    p  \Хочешь, я расскажу тебе сказку?
+${WTF}mol_3d_pane ${WTF}mol_view
+	dom_name \canvas
+	context ${WTF}mol_3d_context / <= context_native WebGL2RenderingContext
+	field *
+		^
+		width <= width 0
+		height <= height 0
+	paint null
 """
     }
 
@@ -49,7 +52,7 @@ body
         private val DESCRIPTORS = arrayOf<AttributesDescriptor>(
             AttributesDescriptor("Name", TreeSyntaxHighlighter.NAME),
             AttributesDescriptor("Value", TreeSyntaxHighlighter.VALUE),
-            AttributesDescriptor("Value prefix", TreeSyntaxHighlighter.VALUE_PREFIX),
+            AttributesDescriptor("Operator", TreeSyntaxHighlighter.VALUE_PREFIX),
             AttributesDescriptor("Bad value", TreeSyntaxHighlighter.BAD_CHARACTER)
         )
     }
