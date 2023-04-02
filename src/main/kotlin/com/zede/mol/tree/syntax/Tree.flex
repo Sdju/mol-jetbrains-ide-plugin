@@ -50,7 +50,7 @@ VALUE= [^\n]
 
 <DENT, DENT2> {
     \t* {
-        int dent = yylength() - 1;
+        int dent = yylength();
         if (dent == prevDent) {
             if (dent == 0)
                 yybegin(YYINITIAL);
@@ -64,7 +64,7 @@ VALUE= [^\n]
         } else {
             yybegin(yystate() == DENT ? DENT2 : DENT);
             prevDent -= 1;
-            yypushback(dent + 1);
+            yypushback(dent);
             System.out.println("DEDENT");
             return TreeTypes.DEDENT;
         }

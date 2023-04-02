@@ -564,7 +564,7 @@ class TreeLexer implements FlexLexer {
           // fall through
           case 10: break;
           case 2:
-            { int dent = yylength() - 1;
+            { int dent = yylength();
         if (dent == prevDent) {
             if (dent == 0)
                 yybegin(YYINITIAL);
@@ -578,7 +578,7 @@ class TreeLexer implements FlexLexer {
         } else {
             yybegin(yystate() == DENT ? DENT2 : DENT);
             prevDent -= 1;
-            yypushback(dent + 1);
+            yypushback(dent);
             System.out.println("DEDENT");
             return TreeTypes.DEDENT;
         }
