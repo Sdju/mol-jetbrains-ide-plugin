@@ -49,7 +49,7 @@ VALUE= [^\n]
 <WAITING_VALUE> {VALUE}* { yybegin(MAIN); System.out.println("VALUE(" + yytext() + ")"); return TreeTypes.VALUE; }
 
 <DENT, DENT2> {
-    {LF}\t* {
+    \t* {
         int dent = yylength() - 1;
         if (dent == prevDent) {
             if (dent == 0)
@@ -70,32 +70,33 @@ VALUE= [^\n]
         }
     }
 
-    {LF}\n {
+    \n {
         if (prevDent == 0) {
             yybegin(YYINITIAL);
             return TreeTypes.LF;
         } else {
             yybegin(yystate() == DENT ? DENT2 : DENT);
             prevDent -= 1;
-            yypushback(2);
+            yypushback(1);
             System.out.println("DEDENT LF");
             return TreeTypes.DEDENT;
         }
     }
 
-    {LF}. {
+    . {
         if (prevDent == 0)
             yybegin(YYINITIAL);
         else
             yybegin(MAIN);
-        yypushback(1);
     }
 }
 
 {LF} {
     System.out.println("LF");
+    if (zzMarkedPosL == zzEndReadL) {
+        yypushback(1);
+    }
     yybegin(DENT);
-    yypushback(1);
     return TreeTypes.LF;
 }
 
