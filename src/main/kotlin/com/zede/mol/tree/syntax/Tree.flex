@@ -49,8 +49,8 @@ VALUE= [^\n]
 <WAITING_VALUE> {VALUE}* { yybegin(MAIN); System.out.println("VALUE(" + yytext() + ")"); return TreeTypes.VALUE; }
 
 <DENT, DENT2> {
-    \t* {
-        int dent = yylength();
+    {LF}\t* {
+        int dent = yylength() - 1;
         if (dent == prevDent) {
             if (dent == 0)
                 yybegin(YYINITIAL);
@@ -64,26 +64,26 @@ VALUE= [^\n]
         } else {
             yybegin(yystate() == DENT ? DENT2 : DENT);
             prevDent -= 1;
-            yypushback(dent);
+            yypushback(dent + 1);
             System.out.println("DEDENT");
             return TreeTypes.DEDENT;
         }
     }
 
-    \n {
+    {LF}\n {
         if (prevDent == 0) {
             yybegin(YYINITIAL);
             return TreeTypes.LF;
         } else {
             yybegin(yystate() == DENT ? DENT2 : DENT);
             prevDent -= 1;
-            yypushback(1);
+            yypushback(2);
             System.out.println("DEDENT LF");
             return TreeTypes.DEDENT;
         }
     }
 
-    . {
+    {LF}. {
         if (prevDent == 0)
             yybegin(YYINITIAL);
         else
@@ -95,7 +95,8 @@ VALUE= [^\n]
 {LF} {
     System.out.println("LF");
     yybegin(DENT);
+    yypushback(1);
     return TreeTypes.LF;
 }
 
-. { System.out.println("BAD_CHARACTER"); return TokenType.BAD_CHARACTER; }
+. { System.out.println("BAD_CHARACTER(" + yystate() + ":" + yytext() + ")"); return TokenType.BAD_CHARACTER; }

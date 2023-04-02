@@ -31,5 +31,18 @@
         <lang.parserDefinition language="Tree" implementationClass="com.zede.mol.tree.TreeParserDefinition"/>
         <lang.syntaxHighlighterFactory language="Tree" implementationClass="com.zede.mol.tree.highlighter.TreeSyntaxHighlighterFactory"/>
         <colorSettingsPage implementation="com.zede.mol.tree.highlighter.TreeColorSettingsPage"/>
+
+        <codeStyleSettingsProvider implementation="com.zede.mol.tree.TreeCodeStyleSettingsProvider" />
+        <langCodeStyleSettingsProvider implementation="com.zede.mol.tree.TreeLanguageCodeStyleSettingsProvider" />
+
+        <editorconfig.fileTypeSettingsProvider language="Tree">
+            <option name="editorconfig.configurations">
+                <array>
+                    <editorconfig>
+                        <option name="trim_trailing_whitespace">false</option>
+                    </editorconfig>
+                </array>
+            </option>
+        </editorconfig.fileTypeSettingsProvider>
     </extensions>
 </idea-plugin>
