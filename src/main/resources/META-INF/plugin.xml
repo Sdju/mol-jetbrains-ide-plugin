@@ -28,7 +28,7 @@
                   implementationClass="com.zede.mol.viewTree.ViewTreeFileType"
                   fieldName="INSTANCE"
                   language="ViewTree"
-                  extensions="view.tree"
+                  patterns="*.view.tree"
         />
         <lang.parserDefinition language="ViewTree" implementationClass="com.zede.mol.viewTree.ViewTreeParserDefinition"/>
         <lang.syntaxHighlighterFactory language="ViewTree" implementationClass="com.zede.mol.viewTree.highlighter.ViewTreeSyntaxHighlighterFactory"/>
@@ -44,7 +44,7 @@
                   implementationClass="com.zede.mol.tree.TreeFileType"
                   fieldName="INSTANCE"
                   language="Tree"
-                  extensions="tree"
+                  patterns="*.tree"
         />
         <lang.parserDefinition language="Tree" implementationClass="com.zede.mol.tree.TreeParserDefinition"/>
         <lang.syntaxHighlighterFactory language="Tree" implementationClass="com.zede.mol.tree.highlighter.TreeSyntaxHighlighterFactory"/>

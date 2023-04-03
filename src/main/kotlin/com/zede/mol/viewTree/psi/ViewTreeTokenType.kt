@@ -8,6 +8,6 @@ import org.jetbrains.annotations.NonNls
 class ViewTreeTokenType(debugName: @NonNls String) :
     IElementType(debugName, ViewTreeLanguage.INSTANCE) {
     override fun toString(): String {
-        return "TreeTokenType." + super.toString()
+        return "ViewTreeTokenType." + super.toString()
     }
 }
