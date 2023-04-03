@@ -7,11 +7,19 @@ import com.intellij.psi.PsiElement;
 
 public class ViewTreeVisitor extends PsiElementVisitor {
 
-  public void visitItem(@NotNull ViewTreeItem o) {
+  public void visitArrayItemsValue(@NotNull ViewTreeArrayItemsValue o) {
     visitPsiElement(o);
   }
 
-  public void visitItemContent(@NotNull ViewTreeItemContent o) {
+  public void visitComponent(@NotNull ViewTreeComponent o) {
+    visitPsiElement(o);
+  }
+
+  public void visitComponentAttributes(@NotNull ViewTreeComponentAttributes o) {
+    visitPsiElement(o);
+  }
+
+  public void visitObjectKeysValue(@NotNull ViewTreeObjectKeysValue o) {
     visitPsiElement(o);
   }
 

@@ -20,8 +20,8 @@ class ViewTreeLexer implements FlexLexer {
 
   /** lexical states */
   public static final int YYINITIAL = 0;
-  public static final int WAITING_VALUE = 2;
-  public static final int MAIN = 4;
+  public static final int MAIN = 2;
+  public static final int WAITING_VALUE = 4;
   public static final int DENT = 6;
   public static final int DENT2 = 8;
 
@@ -41,7 +41,14 @@ class ViewTreeLexer implements FlexLexer {
   private static final int [] ZZ_CMAP_TOP = zzUnpackcmap_top();
 
   private static final String ZZ_CMAP_TOP_PACKED_0 =
-    "\1\0\37\u0100\1\u0200\267\u0100\10\u0300\u1020\u0100";
+    "\1\0\5\u0100\1\u0200\1\u0300\1\u0100\5\u0400\1\u0500\1\u0600"+
+    "\1\u0700\6\u0100\1\u0800\1\u0900\1\u0a00\1\u0b00\1\u0c00\1\u0d00"+
+    "\3\u0100\1\u0e00\205\u0100\1\u0600\1\u0100\1\u0f00\1\u1000\1\u1100"+
+    "\1\u1200\54\u0100\10\u1300\37\u0100\1\u0900\4\u0100\1\u1400\10\u0100"+
+    "\1\u1500\2\u0100\1\u1600\1\u1700\1\u1200\1\u0100\1\u0500\1\u0100"+
+    "\1\u1800\1\u1500\1\u0800\3\u0100\1\u1100\1\u1900\114\u0100\1\u1a00"+
+    "\1\u1100\153\u0100\1\u1b00\11\u0100\1\u1c00\1\u1200\6\u0100\1\u1100"+
+    "\u0f16\u0100";
 
   private static int [] zzUnpackcmap_top() {
     int [] result = new int[4352];
@@ -69,11 +76,24 @@ class ViewTreeLexer implements FlexLexer {
   private static final int [] ZZ_CMAP_BLOCKS = zzUnpackcmap_blocks();
 
   private static final String ZZ_CMAP_BLOCKS_PACKED_0 =
-    "\11\0\1\1\1\2\2\3\1\4\22\0\1\5\73\0"+
-    "\1\6\50\0\1\3\u01a2\0\2\3\326\0\u0100\3";
+    "\11\0\1\1\1\2\3\3\22\0\1\4\3\0\1\5"+
+    "\5\0\1\6\2\0\1\7\1\10\1\11\12\12\2\0"+
+    "\1\13\1\14\1\15\1\16\1\17\32\20\1\0\1\21"+
+    "\1\0\1\22\1\20\1\0\32\20\12\0\1\3\u01da\0"+
+    "\12\23\206\0\12\23\306\0\12\23\234\0\12\23\166\0"+
+    "\12\23\140\0\12\23\166\0\12\23\106\0\12\23\u0116\0"+
+    "\12\23\106\0\12\23\u0146\0\12\23\46\0\12\23\u012c\0"+
+    "\12\23\200\0\12\23\246\0\12\23\6\0\12\23\266\0"+
+    "\12\23\126\0\12\23\206\0\12\23\6\0\12\23\316\0"+
+    "\2\3\u01a6\0\12\23\46\0\12\23\306\0\12\23\26\0"+
+    "\12\23\126\0\12\23\u0196\0\12\23\6\0\u0100\3\240\0"+
+    "\12\23\206\0\12\23\u012c\0\12\23\200\0\12\23\74\0"+
+    "\12\23\220\0\12\23\166\0\12\23\146\0\12\23\206\0"+
+    "\12\23\106\0\12\23\266\0\12\23\u0164\0\62\23\100\0"+
+    "\12\23\266\0";
 
   private static int [] zzUnpackcmap_blocks() {
-    int [] result = new int[1024];
+    int [] result = new int[7424];
     int offset = 0;
     offset = zzUnpackcmap_blocks(ZZ_CMAP_BLOCKS_PACKED_0, offset, result);
     return result;
@@ -97,11 +117,13 @@ class ViewTreeLexer implements FlexLexer {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\1\0\1\1\1\0\1\2\1\3\1\4\1\5\1\1"+
-    "\1\6\1\7\1\10\1\2\1\11";
+    "\2\0\1\1\1\2\1\3\1\4\1\3\1\5\1\6"+
+    "\1\7\1\10\1\11\1\12\2\3\1\13\1\14\1\15"+
+    "\1\16\1\1\1\17\1\2\1\20\1\21\1\12\1\22"+
+    "\1\23\1\24";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[13];
+    int [] result = new int[28];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -126,11 +148,13 @@ class ViewTreeLexer implements FlexLexer {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\7\0\16\0\25\0\34\0\43\0\43\0\52"+
-    "\0\43\0\43\0\43\0\61\0\43";
+    "\0\0\0\24\0\50\0\74\0\120\0\120\0\144\0\170"+
+    "\0\120\0\120\0\214\0\120\0\240\0\264\0\310\0\120"+
+    "\0\120\0\120\0\120\0\334\0\120\0\360\0\120\0\u0104"+
+    "\0\u0118\0\u012c\0\120\0\120";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[13];
+    int [] result = new int[28];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -153,13 +177,18 @@ class ViewTreeLexer implements FlexLexer {
   private static final int [] ZZ_TRANS = zzUnpacktrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\1\5\1\6\1\7\1\5\1\0\2\6\2\10\1\7"+
-    "\4\10\1\5\1\6\1\7\1\5\1\0\1\11\1\12"+
-    "\1\13\1\14\1\15\2\0\2\13\1\5\2\0\1\5"+
-    "\12\0\2\10\1\0\4\10\1\0\1\14\5\0";
+    "\2\5\1\6\1\0\1\5\1\7\12\5\1\10\5\5"+
+    "\1\6\1\0\1\11\1\7\1\12\1\13\1\5\1\14"+
+    "\1\15\1\16\1\5\1\17\1\20\1\21\1\10\1\22"+
+    "\1\23\1\15\2\24\1\6\21\24\1\25\1\26\1\27"+
+    "\1\0\20\25\44\0\1\30\15\0\1\10\5\0\1\10"+
+    "\3\0\2\13\1\0\21\13\10\0\1\31\1\0\1\15"+
+    "\10\0\1\15\14\0\1\32\23\0\1\33\7\0\2\24"+
+    "\1\0\21\24\1\0\1\26\34\0\1\30\5\0\1\30"+
+    "\15\0\1\31\10\0\1\31\15\0\1\34\6\0";
 
   private static int [] zzUnpacktrans() {
-    int [] result = new int[56];
+    int [] result = new int[320];
     int offset = 0;
     offset = zzUnpacktrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -197,11 +226,11 @@ class ViewTreeLexer implements FlexLexer {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\1\0\1\1\1\0\2\1\2\11\1\1\3\11\1\1"+
-    "\1\11";
+    "\2\0\2\1\2\11\2\1\2\11\1\1\1\11\3\1"+
+    "\4\11\1\1\1\11\1\1\1\11\3\1\2\11";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[13];
+    int [] result = new int[28];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -562,14 +591,11 @@ class ViewTreeLexer implements FlexLexer {
             { yybegin(MAIN); return ViewTreeTypes.VALUE;
             }
           // fall through
-          case 10: break;
+          case 21: break;
           case 2:
             { int dent = yylength();
         if (dent == prevDent) {
-            if (dent == 0)
-                yybegin(YYINITIAL);
-            else
-                yybegin(MAIN);
+            yybegin(dent == 0 ? YYINITIAL : MAIN);
         } else if (dent > prevDent) {
             yybegin(MAIN);
             prevDent += 1;
@@ -582,18 +608,13 @@ class ViewTreeLexer implements FlexLexer {
         }
             }
           // fall through
-          case 11: break;
+          case 22: break;
           case 3:
-            { yybegin(MAIN); return ViewTreeTypes.NAME;
-            }
-          // fall through
-          case 12: break;
-          case 4:
             { return TokenType.BAD_CHARACTER;
             }
           // fall through
-          case 13: break;
-          case 5:
+          case 23: break;
+          case 4:
             { if (zzMarkedPosL == zzEndReadL) {
         yypushback(1);
     }
@@ -601,26 +622,66 @@ class ViewTreeLexer implements FlexLexer {
     return ViewTreeTypes.LF;
             }
           // fall through
-          case 14: break;
+          case 24: break;
+          case 5:
+            { yybegin(MAIN); return ViewTreeTypes.NAME;
+            }
+          // fall through
+          case 25: break;
           case 6:
             { yybegin(MAIN); return ViewTreeTypes.SPACE;
             }
           // fall through
-          case 15: break;
+          case 26: break;
           case 7:
+            { yybegin(MAIN); return ViewTreeTypes.OPERATOR_OBJECT;
+            }
+          // fall through
+          case 27: break;
+          case 8:
+            { yybegin(MAIN); return ViewTreeTypes.COMMENT;
+            }
+          // fall through
+          case 28: break;
+          case 9:
+            { yybegin(MAIN); return ViewTreeTypes.OPERATOR_ARRAY;
+            }
+          // fall through
+          case 29: break;
+          case 10:
+            { yybegin(MAIN); return ViewTreeTypes.NUMBER;
+            }
+          // fall through
+          case 30: break;
+          case 11:
+            { yybegin(MAIN); return ViewTreeTypes.OPERATOR_ATOM;
+            }
+          // fall through
+          case 31: break;
+          case 12:
+            { yybegin(MAIN); return ViewTreeTypes.OPERATOR_LOCALISATION;
+            }
+          // fall through
+          case 32: break;
+          case 13:
             { yybegin(WAITING_VALUE); return ViewTreeTypes.VALUE_PREFIX;
             }
           // fall through
-          case 16: break;
-          case 8:
+          case 33: break;
+          case 14:
+            { yybegin(MAIN); return ViewTreeTypes.OPERATOR_REASSIGN;
+            }
+          // fall through
+          case 34: break;
+          case 15:
             { if (prevDent == 0)
             yybegin(YYINITIAL);
         else
             yybegin(MAIN);
             }
           // fall through
-          case 17: break;
-          case 9:
+          case 35: break;
+          case 16:
             { if (prevDent == 0) {
             yybegin(YYINITIAL);
             return ViewTreeTypes.LF;
@@ -632,7 +693,27 @@ class ViewTreeLexer implements FlexLexer {
         }
             }
           // fall through
-          case 18: break;
+          case 36: break;
+          case 17:
+            { yybegin(MAIN); return ViewTreeTypes.FQN_NAME;
+            }
+          // fall through
+          case 37: break;
+          case 18:
+            { yybegin(MAIN); return ViewTreeTypes.OPERATOR_LEFT_BIND;
+            }
+          // fall through
+          case 38: break;
+          case 19:
+            { yybegin(MAIN); return ViewTreeTypes.OPERATOR_RIGHT_BIND;
+            }
+          // fall through
+          case 39: break;
+          case 20:
+            { yybegin(MAIN); return ViewTreeTypes.OPERATOR_TWO_WAY_BIND;
+            }
+          // fall through
+          case 40: break;
           default:
             zzScanError(ZZ_NO_MATCH);
           }

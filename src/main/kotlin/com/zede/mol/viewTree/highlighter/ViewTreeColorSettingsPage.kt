@@ -50,9 +50,12 @@ ${WTF}mol_3d_pane ${WTF}mol_view
 
     companion object {
         private val DESCRIPTORS = arrayOf<AttributesDescriptor>(
-            AttributesDescriptor("Name", ViewTreeSyntaxHighlighter.NAME),
             AttributesDescriptor("Value", ViewTreeSyntaxHighlighter.VALUE),
-            AttributesDescriptor("Operator", ViewTreeSyntaxHighlighter.VALUE_PREFIX),
+            AttributesDescriptor("Name", ViewTreeSyntaxHighlighter.NAME),
+            AttributesDescriptor("Instance", ViewTreeSyntaxHighlighter.FQN_NAME),
+            AttributesDescriptor("Operator", ViewTreeSyntaxHighlighter.OPERATOR),
+            AttributesDescriptor("Number", ViewTreeSyntaxHighlighter.NUMBER),
+            AttributesDescriptor("Comment", ViewTreeSyntaxHighlighter.COMMENT),
             AttributesDescriptor("Bad value", ViewTreeSyntaxHighlighter.BAD_CHARACTER)
         )
     }

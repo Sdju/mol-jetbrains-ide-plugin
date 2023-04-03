@@ -11,14 +11,14 @@ import static com.zede.mol.viewTree.psi.ViewTreeTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.zede.mol.viewTree.psi.*;
 
-public class ViewTreeItemImpl extends ASTWrapperPsiElement implements ViewTreeItem {
+public class ViewTreeObjectKeysValueImpl extends ASTWrapperPsiElement implements ViewTreeObjectKeysValue {
 
-  public ViewTreeItemImpl(@NotNull ASTNode node) {
+  public ViewTreeObjectKeysValueImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ViewTreeVisitor visitor) {
-    visitor.visitItem(this);
+    visitor.visitObjectKeysValue(this);
   }
 
   @Override
@@ -28,9 +28,21 @@ public class ViewTreeItemImpl extends ASTWrapperPsiElement implements ViewTreeIt
   }
 
   @Override
-  @Nullable
-  public ViewTreeItemContent getItemContent() {
-    return findChildByClass(ViewTreeItemContent.class);
+  @NotNull
+  public List<ViewTreeArrayItemsValue> getArrayItemsValueList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ViewTreeArrayItemsValue.class);
+  }
+
+  @Override
+  @NotNull
+  public List<ViewTreeComponentAttributes> getComponentAttributesList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ViewTreeComponentAttributes.class);
+  }
+
+  @Override
+  @NotNull
+  public List<ViewTreeObjectKeysValue> getObjectKeysValueList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ViewTreeObjectKeysValue.class);
   }
 
 }
