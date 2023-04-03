@@ -23,8 +23,25 @@
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
-        <fileType name="$mol View Tree"
-                  implementationClass="com.zede.mol.ViewTreeFileType"
+        <!-- VIEW TREE LANGUAGE -->
+        <fileType name="ViewTree $mol"
+                  implementationClass="com.zede.mol.viewTree.ViewTreeFileType"
+                  fieldName="INSTANCE"
+                  language="ViewTree"
+                  extensions="view.tree"
+        />
+        <lang.parserDefinition language="ViewTree" implementationClass="com.zede.mol.viewTree.ViewTreeParserDefinition"/>
+        <lang.syntaxHighlighterFactory language="ViewTree" implementationClass="com.zede.mol.viewTree.highlighter.ViewTreeSyntaxHighlighterFactory"/>
+        <colorSettingsPage implementation="com.zede.mol.viewTree.highlighter.ViewTreeColorSettingsPage"/>
+
+        <codeStyleSettingsProvider implementation="com.zede.mol.viewTree.ViewTreeCodeStyleSettingsProvider" />
+        <langCodeStyleSettingsProvider implementation="com.zede.mol.viewTree.ViewTreeLanguageCodeStyleSettingsProvider" />
+        <lang.foldingBuilder language="Tree" implementationClass="com.zede.mol.viewTree.ViewTreeFoldingBuilder"/>
+        <fileIndentOptionsProvider implementation="com.zede.mol.viewTree.ViewTreeFileTypeIndentOptionsProvider" />
+
+        <!-- TREE LANGUAGE -->
+        <fileType name="Tree ($mol)"
+                  implementationClass="com.zede.mol.tree.TreeFileType"
                   fieldName="INSTANCE"
                   language="Tree"
                   extensions="tree"

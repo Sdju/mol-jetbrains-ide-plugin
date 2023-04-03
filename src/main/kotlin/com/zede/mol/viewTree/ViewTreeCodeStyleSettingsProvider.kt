@@ -1,4 +1,4 @@
-package com.zede.mol.tree
+package com.zede.mol.viewTree
 
 import com.intellij.application.options.CodeStyleAbstractConfigurable
 import com.intellij.application.options.CodeStyleAbstractPanel
@@ -6,9 +6,9 @@ import com.intellij.application.options.TabbedLanguageCodeStylePanel
 import com.intellij.psi.codeStyle.*
 
 
-class TreeCodeStyleSettingsProvider : CodeStyleSettingsProvider () {
+class ViewTreeCodeStyleSettingsProvider : CodeStyleSettingsProvider () {
     override fun createCustomSettings(settings: CodeStyleSettings): CustomCodeStyleSettings {
-        val treeSettings = TreeCodeStyleSettings(settings)
+        val treeSettings = ViewTreeCodeStyleSettings(settings)
         val indentOptions = treeSettings.container.indentOptions
         indentOptions.USE_TAB_CHARACTER = true
         indentOptions.TAB_SIZE = 6
@@ -17,7 +17,7 @@ class TreeCodeStyleSettingsProvider : CodeStyleSettingsProvider () {
     }
 
     override fun getConfigurableDisplayName(): String {
-        return "Tree (\$mol)"
+        return "ViewTree (\$mol)"
     }
 
     override fun createConfigurable(
@@ -33,6 +33,6 @@ class TreeCodeStyleSettingsProvider : CodeStyleSettingsProvider () {
 
 
     private class SimpleCodeStyleMainPanel(currentSettings: CodeStyleSettings?, settings: CodeStyleSettings?) :
-        TabbedLanguageCodeStylePanel(TreeLanguage.INSTANCE, currentSettings, settings!!)
+        TabbedLanguageCodeStylePanel(ViewTreeLanguage.INSTANCE, currentSettings, settings!!)
 
 }

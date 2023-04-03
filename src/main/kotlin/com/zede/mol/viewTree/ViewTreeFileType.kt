@@ -1,14 +1,14 @@
 // Copyright 2000-2022 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
-package com.zede.mol
+package com.zede.mol.viewTree
 
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.fileTypes.LanguageFileType
-import com.zede.mol.tree.TreeLanguage
+import com.zede.mol.viewTree.ViewTreeLanguage
 import javax.swing.Icon
 
-class ViewTreeFileType private constructor() : LanguageFileType(TreeLanguage.INSTANCE) {
+class ViewTreeFileType private constructor() : LanguageFileType(ViewTreeLanguage.INSTANCE) {
     override fun getName(): String {
-        return "\$mol View Tree"
+        return "ViewTree \$mol"
     }
 
     override fun getDescription(): String {
@@ -16,7 +16,7 @@ class ViewTreeFileType private constructor() : LanguageFileType(TreeLanguage.INS
     }
 
     override fun getDefaultExtension(): String {
-        return "tree"
+        return "view.tree"
     }
 
     override fun getIcon(): Icon {

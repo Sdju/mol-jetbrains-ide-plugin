@@ -1,0 +1,20 @@
+{
+  parserClass="com.zede.mol.viewTree.parser.ViewTreeParser"
+
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  psiClassPrefix="ViewTree"
+  psiImplClassSuffix="Impl"
+  psiPackage="com.zede.mol.viewTree.psi"
+  psiImplPackage="com.zede.mol.viewTree.psi.impl"
+
+  elementTypeHolderClass="com.zede.mol.viewTree.psi.ViewTreeTypes"
+  elementTypeClass="com.zede.mol.viewTree.psi.ViewTreeElementType"
+  tokenTypeClass="com.zede.mol.viewTree.psi.ViewTreeTokenType"
+}
+
+treeFile ::= (item|LF)*
+
+item ::= NAME (SPACE NAME)* (SPACE VALUE_PREFIX VALUE?)? LF+ itemContent?
+
+itemContent ::= INDENT (item | (VALUE_PREFIX VALUE? LF))+ DEDENT
