@@ -67,6 +67,24 @@ class ViewTreeSyntaxHighlighter : SyntaxHighlighterBase() {
         if (tokenType == ViewTreeTypes.COMMENT) {
             return COMMENT_KEYS
         }
+        if (tokenType == ViewTreeTypes.CONST_TRUE) {
+            return CONST_KEYS
+        }
+        if (tokenType == ViewTreeTypes.CONST_FALSE) {
+            return CONST_KEYS
+        }
+        if (tokenType == ViewTreeTypes.CONST_NAN) {
+            return CONST_KEYS
+        }
+        if (tokenType == ViewTreeTypes.CONST_INFINITY) {
+            return CONST_KEYS
+        }
+        if (tokenType == ViewTreeTypes.CONST_UNDEFINED) {
+            return CONST_KEYS
+        }
+        if (tokenType == ViewTreeTypes.CONST_NULL) {
+            return CONST_KEYS
+        }
         return if (tokenType == TokenType.BAD_CHARACTER) {
             BAD_CHAR_KEYS
         } else EMPTY_KEYS
@@ -79,6 +97,7 @@ class ViewTreeSyntaxHighlighter : SyntaxHighlighterBase() {
         val OPERATOR = TextAttributesKey.createTextAttributesKey("OPERATOR", DefaultLanguageHighlighterColors.OPERATION_SIGN)
         val NUMBER = TextAttributesKey.createTextAttributesKey("NUMBER", DefaultLanguageHighlighterColors.NUMBER)
         val COMMENT = TextAttributesKey.createTextAttributesKey("COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT)
+        val CONST = TextAttributesKey.createTextAttributesKey("CONST", DefaultLanguageHighlighterColors.KEYWORD)
         val BAD_CHARACTER = TextAttributesKey.createTextAttributesKey("BAD_CHARACTER", DefaultLanguageHighlighterColors.INVALID_STRING_ESCAPE)
 
         private val VALUE_KEYS = arrayOf(VALUE)
@@ -88,6 +107,7 @@ class ViewTreeSyntaxHighlighter : SyntaxHighlighterBase() {
         private val NUMBER_KEYS = arrayOf(NUMBER)
         private val COMMENT_KEYS = arrayOf(COMMENT)
         private val BAD_CHAR_KEYS = arrayOf(BAD_CHARACTER)
+        private val CONST_KEYS = arrayOf(CONST)
         private val EMPTY_KEYS = arrayOf<TextAttributesKey>()
     }
 }

@@ -19,6 +19,10 @@ public class ViewTreeVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitMultilineStringValue(@NotNull ViewTreeMultilineStringValue o) {
+    visitPsiElement(o);
+  }
+
   public void visitObjectKeysValue(@NotNull ViewTreeObjectKeysValue o) {
     visitPsiElement(o);
   }

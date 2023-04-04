@@ -11,9 +11,16 @@ public interface ViewTreeTypes {
   IElementType ARRAY_ITEMS_VALUE = new ViewTreeElementType("ARRAY_ITEMS_VALUE");
   IElementType COMPONENT = new ViewTreeElementType("COMPONENT");
   IElementType COMPONENT_ATTRIBUTES = new ViewTreeElementType("COMPONENT_ATTRIBUTES");
+  IElementType MULTILINE_STRING_VALUE = new ViewTreeElementType("MULTILINE_STRING_VALUE");
   IElementType OBJECT_KEYS_VALUE = new ViewTreeElementType("OBJECT_KEYS_VALUE");
 
   IElementType COMMENT = new ViewTreeTokenType("COMMENT");
+  IElementType CONST_FALSE = new ViewTreeTokenType("CONST_FALSE");
+  IElementType CONST_INFINITY = new ViewTreeTokenType("CONST_INFINITY");
+  IElementType CONST_NAN = new ViewTreeTokenType("CONST_NAN");
+  IElementType CONST_NULL = new ViewTreeTokenType("CONST_NULL");
+  IElementType CONST_TRUE = new ViewTreeTokenType("CONST_TRUE");
+  IElementType CONST_UNDEFINED = new ViewTreeTokenType("CONST_UNDEFINED");
   IElementType DEDENT = new ViewTreeTokenType("DEDENT");
   IElementType FQN_NAME = new ViewTreeTokenType("FQN_NAME");
   IElementType INDENT = new ViewTreeTokenType("INDENT");
@@ -43,6 +50,9 @@ public interface ViewTreeTypes {
       }
       else if (type == COMPONENT_ATTRIBUTES) {
         return new ViewTreeComponentAttributesImpl(node);
+      }
+      else if (type == MULTILINE_STRING_VALUE) {
+        return new ViewTreeMultilineStringValueImpl(node);
       }
       else if (type == OBJECT_KEYS_VALUE) {
         return new ViewTreeObjectKeysValueImpl(node);

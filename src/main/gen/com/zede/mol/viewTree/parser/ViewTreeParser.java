@@ -36,7 +36,7 @@ public class ViewTreeParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // INDENT (componentValue)* DEDENT
+  // INDENT componentValue* DEDENT
   public static boolean arrayItemsValue(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "arrayItemsValue")) return false;
     if (!nextTokenIs(b, INDENT)) return false;
@@ -49,37 +49,98 @@ public class ViewTreeParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // (componentValue)*
+  // componentValue*
   private static boolean arrayItemsValue_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "arrayItemsValue_1")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!arrayItemsValue_1_0(b, l + 1)) break;
+      if (!componentValue(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "arrayItemsValue_1", c)) break;
     }
     return true;
   }
 
-  // (componentValue)
-  private static boolean arrayItemsValue_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "arrayItemsValue_1_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = componentValue(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
   /* ********************************************************** */
-  // OPERATOR_ARRAY gap arrayItemsValue
+  // OPERATOR_ARRAY (NAME|FQN_NAME)? ((gap arrayItemsValue?)| SPACE+ componentValue)
   static boolean arrayValue(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "arrayValue")) return false;
     if (!nextTokenIs(b, OPERATOR_ARRAY)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, OPERATOR_ARRAY);
-    r = r && gap(b, l + 1);
-    r = r && arrayItemsValue(b, l + 1);
+    r = r && arrayValue_1(b, l + 1);
+    r = r && arrayValue_2(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // (NAME|FQN_NAME)?
+  private static boolean arrayValue_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "arrayValue_1")) return false;
+    arrayValue_1_0(b, l + 1);
+    return true;
+  }
+
+  // NAME|FQN_NAME
+  private static boolean arrayValue_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "arrayValue_1_0")) return false;
+    boolean r;
+    r = consumeToken(b, NAME);
+    if (!r) r = consumeToken(b, FQN_NAME);
+    return r;
+  }
+
+  // (gap arrayItemsValue?)| SPACE+ componentValue
+  private static boolean arrayValue_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "arrayValue_2")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = arrayValue_2_0(b, l + 1);
+    if (!r) r = arrayValue_2_1(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // gap arrayItemsValue?
+  private static boolean arrayValue_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "arrayValue_2_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = gap(b, l + 1);
+    r = r && arrayValue_2_0_1(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // arrayItemsValue?
+  private static boolean arrayValue_2_0_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "arrayValue_2_0_1")) return false;
+    arrayItemsValue(b, l + 1);
+    return true;
+  }
+
+  // SPACE+ componentValue
+  private static boolean arrayValue_2_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "arrayValue_2_1")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = arrayValue_2_1_0(b, l + 1);
+    r = r && componentValue(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // SPACE+
+  private static boolean arrayValue_2_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "arrayValue_2_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, SPACE);
+    while (r) {
+      int c = current_position_(b);
+      if (!consumeToken(b, SPACE)) break;
+      if (!empty_element_parsed_guard_(b, "arrayValue_2_1_0", c)) break;
+    }
     exit_section_(b, m, null, r);
     return r;
   }
@@ -123,7 +184,7 @@ public class ViewTreeParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // NAME modifier? SPACE+ componentValue
+  // NAME multiplex? SPACE+ componentValue
   static boolean componentAttribute(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "componentAttribute")) return false;
     if (!nextTokenIs(b, NAME)) return false;
@@ -137,10 +198,10 @@ public class ViewTreeParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // modifier?
+  // multiplex?
   private static boolean componentAttribute_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "componentAttribute_1")) return false;
-    modifier(b, l + 1);
+    multiplex(b, l + 1);
     return true;
   }
 
@@ -211,7 +272,32 @@ public class ViewTreeParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (SPACE COMMENT)? (COMMENT|LF)+
+  // (CONST_TRUE | CONST_FALSE | CONST_NAN | CONST_NULL | CONST_UNDEFINED | CONST_INFINITY) gap
+  static boolean constValue(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "constValue")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = constValue_0(b, l + 1);
+    r = r && gap(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // CONST_TRUE | CONST_FALSE | CONST_NAN | CONST_NULL | CONST_UNDEFINED | CONST_INFINITY
+  private static boolean constValue_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "constValue_0")) return false;
+    boolean r;
+    r = consumeToken(b, CONST_TRUE);
+    if (!r) r = consumeToken(b, CONST_FALSE);
+    if (!r) r = consumeToken(b, CONST_NAN);
+    if (!r) r = consumeToken(b, CONST_NULL);
+    if (!r) r = consumeToken(b, CONST_UNDEFINED);
+    if (!r) r = consumeToken(b, CONST_INFINITY);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // (SPACE+ COMMENT)? (COMMENT|LF)+
   static boolean gap(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "gap")) return false;
     boolean r;
@@ -222,19 +308,35 @@ public class ViewTreeParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // (SPACE COMMENT)?
+  // (SPACE+ COMMENT)?
   private static boolean gap_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "gap_0")) return false;
     gap_0_0(b, l + 1);
     return true;
   }
 
-  // SPACE COMMENT
+  // SPACE+ COMMENT
   private static boolean gap_0_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "gap_0_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, SPACE, COMMENT);
+    r = gap_0_0_0(b, l + 1);
+    r = r && consumeToken(b, COMMENT);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // SPACE+
+  private static boolean gap_0_0_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "gap_0_0_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, SPACE);
+    while (r) {
+      int c = current_position_(b);
+      if (!consumeToken(b, SPACE)) break;
+      if (!empty_element_parsed_guard_(b, "gap_0_0_0", c)) break;
+    }
     exit_section_(b, m, null, r);
     return r;
   }
@@ -275,7 +377,7 @@ public class ViewTreeParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // OPERATOR_LEFT_BIND SPACE+ NAME modifier? SPACE* ((FQN_NAME gap componentAttributes?)|simpleValue|gap)?
+  // OPERATOR_LEFT_BIND SPACE+ NAME multiplex? SPACE* ((FQN_NAME gap componentAttributes?)|simpleValue|gap)?
   static boolean leftBindValue(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "leftBindValue")) return false;
     if (!nextTokenIs(b, OPERATOR_LEFT_BIND)) return false;
@@ -306,10 +408,10 @@ public class ViewTreeParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // modifier?
+  // multiplex?
   private static boolean leftBindValue_3(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "leftBindValue_3")) return false;
-    modifier(b, l + 1);
+    multiplex(b, l + 1);
     return true;
   }
 
@@ -363,98 +465,96 @@ public class ViewTreeParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // SPACE* (OPERATOR_ATOM (SPACE* NAME)?)|(OPERATOR_OBJECT SPACE* NAME)
-  static boolean modifier(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "modifier")) return false;
+  // LF INDENT (VALUE_PREFIX VALUE? LF)* DEDENT
+  public static boolean multilineStringValue(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "multilineStringValue")) return false;
+    if (!nextTokenIs(b, LF)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = modifier_0(b, l + 1);
-    if (!r) r = modifier_1(b, l + 1);
-    exit_section_(b, m, null, r);
+    r = consumeTokens(b, 0, LF, INDENT);
+    r = r && multilineStringValue_2(b, l + 1);
+    r = r && consumeToken(b, DEDENT);
+    exit_section_(b, m, MULTILINE_STRING_VALUE, r);
     return r;
   }
 
-  // SPACE* (OPERATOR_ATOM (SPACE* NAME)?)
-  private static boolean modifier_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "modifier_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = modifier_0_0(b, l + 1);
-    r = r && modifier_0_1(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // SPACE*
-  private static boolean modifier_0_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "modifier_0_0")) return false;
+  // (VALUE_PREFIX VALUE? LF)*
+  private static boolean multilineStringValue_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "multilineStringValue_2")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!consumeToken(b, SPACE)) break;
-      if (!empty_element_parsed_guard_(b, "modifier_0_0", c)) break;
+      if (!multilineStringValue_2_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "multilineStringValue_2", c)) break;
     }
     return true;
   }
 
-  // OPERATOR_ATOM (SPACE* NAME)?
-  private static boolean modifier_0_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "modifier_0_1")) return false;
+  // VALUE_PREFIX VALUE? LF
+  private static boolean multilineStringValue_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "multilineStringValue_2_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeToken(b, OPERATOR_ATOM);
-    r = r && modifier_0_1_1(b, l + 1);
+    r = consumeToken(b, VALUE_PREFIX);
+    r = r && multilineStringValue_2_0_1(b, l + 1);
+    r = r && consumeToken(b, LF);
     exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // VALUE?
+  private static boolean multilineStringValue_2_0_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "multilineStringValue_2_0_1")) return false;
+    consumeToken(b, VALUE);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // (OPERATOR_ATOM|OPERATOR_OBJECT) (SPACE* NAME)?
+  static boolean multiplex(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "multiplex")) return false;
+    if (!nextTokenIs(b, "", OPERATOR_ATOM, OPERATOR_OBJECT)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = multiplex_0(b, l + 1);
+    r = r && multiplex_1(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // OPERATOR_ATOM|OPERATOR_OBJECT
+  private static boolean multiplex_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "multiplex_0")) return false;
+    boolean r;
+    r = consumeToken(b, OPERATOR_ATOM);
+    if (!r) r = consumeToken(b, OPERATOR_OBJECT);
     return r;
   }
 
   // (SPACE* NAME)?
-  private static boolean modifier_0_1_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "modifier_0_1_1")) return false;
-    modifier_0_1_1_0(b, l + 1);
+  private static boolean multiplex_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "multiplex_1")) return false;
+    multiplex_1_0(b, l + 1);
     return true;
   }
 
   // SPACE* NAME
-  private static boolean modifier_0_1_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "modifier_0_1_1_0")) return false;
+  private static boolean multiplex_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "multiplex_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = modifier_0_1_1_0_0(b, l + 1);
+    r = multiplex_1_0_0(b, l + 1);
     r = r && consumeToken(b, NAME);
     exit_section_(b, m, null, r);
     return r;
   }
 
   // SPACE*
-  private static boolean modifier_0_1_1_0_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "modifier_0_1_1_0_0")) return false;
+  private static boolean multiplex_1_0_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "multiplex_1_0_0")) return false;
     while (true) {
       int c = current_position_(b);
       if (!consumeToken(b, SPACE)) break;
-      if (!empty_element_parsed_guard_(b, "modifier_0_1_1_0_0", c)) break;
-    }
-    return true;
-  }
-
-  // OPERATOR_OBJECT SPACE* NAME
-  private static boolean modifier_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "modifier_1")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, OPERATOR_OBJECT);
-    r = r && modifier_1_1(b, l + 1);
-    r = r && consumeToken(b, NAME);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // SPACE*
-  private static boolean modifier_1_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "modifier_1_1")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!consumeToken(b, SPACE)) break;
-      if (!empty_element_parsed_guard_(b, "modifier_1_1", c)) break;
+      if (!empty_element_parsed_guard_(b, "multiplex_1_0_0", c)) break;
     }
     return true;
   }
@@ -517,21 +617,79 @@ public class ViewTreeParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // OPERATOR_OBJECT gap objectKeysValue
+  // OPERATOR_OBJECT ((gap objectKeysValue) | SPACE+ componentAttribute*)
   static boolean objectValue(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "objectValue")) return false;
     if (!nextTokenIs(b, OPERATOR_OBJECT)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, OPERATOR_OBJECT);
-    r = r && gap(b, l + 1);
+    r = r && objectValue_1(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // (gap objectKeysValue) | SPACE+ componentAttribute*
+  private static boolean objectValue_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "objectValue_1")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = objectValue_1_0(b, l + 1);
+    if (!r) r = objectValue_1_1(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // gap objectKeysValue
+  private static boolean objectValue_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "objectValue_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = gap(b, l + 1);
     r = r && objectKeysValue(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
+  // SPACE+ componentAttribute*
+  private static boolean objectValue_1_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "objectValue_1_1")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = objectValue_1_1_0(b, l + 1);
+    r = r && objectValue_1_1_1(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // SPACE+
+  private static boolean objectValue_1_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "objectValue_1_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, SPACE);
+    while (r) {
+      int c = current_position_(b);
+      if (!consumeToken(b, SPACE)) break;
+      if (!empty_element_parsed_guard_(b, "objectValue_1_1_0", c)) break;
+    }
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // componentAttribute*
+  private static boolean objectValue_1_1_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "objectValue_1_1_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!componentAttribute(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "objectValue_1_1_1", c)) break;
+    }
+    return true;
+  }
+
   /* ********************************************************** */
-  // OPERATOR_RIGHT_BIND SPACE+ NAME modifier? SPACE* ((FQN_NAME gap componentAttributes?)|simpleValue|gap)?
+  // OPERATOR_RIGHT_BIND SPACE+ NAME multiplex? SPACE* ((FQN_NAME gap componentAttributes?)|simpleValue|gap)?
   static boolean rightBindValue(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "rightBindValue")) return false;
     if (!nextTokenIs(b, OPERATOR_RIGHT_BIND)) return false;
@@ -562,10 +720,10 @@ public class ViewTreeParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // modifier?
+  // multiplex?
   private static boolean rightBindValue_3(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "rightBindValue_3")) return false;
-    modifier(b, l + 1);
+    multiplex(b, l + 1);
     return true;
   }
 
@@ -619,7 +777,7 @@ public class ViewTreeParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // stringValue | numberValue | arrayValue | objectValue
+  // stringValue | numberValue | arrayValue | objectValue | constValue
   static boolean simpleValue(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "simpleValue")) return false;
     boolean r;
@@ -627,11 +785,12 @@ public class ViewTreeParser implements PsiParser, LightPsiParser {
     if (!r) r = numberValue(b, l + 1);
     if (!r) r = arrayValue(b, l + 1);
     if (!r) r = objectValue(b, l + 1);
+    if (!r) r = constValue(b, l + 1);
     return r;
   }
 
   /* ********************************************************** */
-  // (OPERATOR_LOCALISATION SPACE+)? VALUE_PREFIX VALUE? gap
+  // (OPERATOR_LOCALISATION SPACE+)? VALUE_PREFIX ((multilineStringValue gap?) | (VALUE? gap))
   static boolean stringValue(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "stringValue")) return false;
     if (!nextTokenIs(b, "", OPERATOR_LOCALISATION, VALUE_PREFIX)) return false;
@@ -640,7 +799,6 @@ public class ViewTreeParser implements PsiParser, LightPsiParser {
     r = stringValue_0(b, l + 1);
     r = r && consumeToken(b, VALUE_PREFIX);
     r = r && stringValue_2(b, l + 1);
-    r = r && gap(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
@@ -678,15 +836,55 @@ public class ViewTreeParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // VALUE?
+  // (multilineStringValue gap?) | (VALUE? gap)
   private static boolean stringValue_2(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "stringValue_2")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = stringValue_2_0(b, l + 1);
+    if (!r) r = stringValue_2_1(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // multilineStringValue gap?
+  private static boolean stringValue_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "stringValue_2_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = multilineStringValue(b, l + 1);
+    r = r && stringValue_2_0_1(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // gap?
+  private static boolean stringValue_2_0_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "stringValue_2_0_1")) return false;
+    gap(b, l + 1);
+    return true;
+  }
+
+  // VALUE? gap
+  private static boolean stringValue_2_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "stringValue_2_1")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = stringValue_2_1_0(b, l + 1);
+    r = r && gap(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // VALUE?
+  private static boolean stringValue_2_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "stringValue_2_1_0")) return false;
     consumeToken(b, VALUE);
     return true;
   }
 
   /* ********************************************************** */
-  // OPERATOR_TWO_WAY_BIND SPACE+ NAME modifier? SPACE* (gap | simpleValue)
+  // OPERATOR_TWO_WAY_BIND SPACE+ NAME multiplex? SPACE* (gap | simpleValue)
   static boolean twoWayBindValue(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "twoWayBindValue")) return false;
     if (!nextTokenIs(b, OPERATOR_TWO_WAY_BIND)) return false;
@@ -717,10 +915,10 @@ public class ViewTreeParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // modifier?
+  // multiplex?
   private static boolean twoWayBindValue_3(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "twoWayBindValue_3")) return false;
-    modifier(b, l + 1);
+    multiplex(b, l + 1);
     return true;
   }
 
@@ -741,16 +939,6 @@ public class ViewTreeParser implements PsiParser, LightPsiParser {
     boolean r;
     r = gap(b, l + 1);
     if (!r) r = simpleValue(b, l + 1);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // instance|NUMBER
-  static boolean value(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "value")) return false;
-    boolean r;
-    r = instance(b, l + 1);
-    if (!r) r = consumeToken(b, NUMBER);
     return r;
   }
 

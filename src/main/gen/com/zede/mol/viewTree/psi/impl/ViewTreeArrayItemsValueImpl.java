@@ -41,6 +41,12 @@ public class ViewTreeArrayItemsValueImpl extends ASTWrapperPsiElement implements
 
   @Override
   @NotNull
+  public List<ViewTreeMultilineStringValue> getMultilineStringValueList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ViewTreeMultilineStringValue.class);
+  }
+
+  @Override
+  @NotNull
   public List<ViewTreeObjectKeysValue> getObjectKeysValueList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ViewTreeObjectKeysValue.class);
   }

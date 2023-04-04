@@ -56,6 +56,7 @@ ${WTF}mol_3d_pane ${WTF}mol_view
             AttributesDescriptor("Operator", ViewTreeSyntaxHighlighter.OPERATOR),
             AttributesDescriptor("Number", ViewTreeSyntaxHighlighter.NUMBER),
             AttributesDescriptor("Comment", ViewTreeSyntaxHighlighter.COMMENT),
+            AttributesDescriptor("Const", ViewTreeSyntaxHighlighter.CONST),
             AttributesDescriptor("Bad value", ViewTreeSyntaxHighlighter.BAD_CHARACTER)
         )
     }

@@ -14,6 +14,9 @@ public interface ViewTreeComponentAttributes extends PsiElement {
   List<ViewTreeComponentAttributes> getComponentAttributesList();
 
   @NotNull
+  List<ViewTreeMultilineStringValue> getMultilineStringValueList();
+
+  @NotNull
   List<ViewTreeObjectKeysValue> getObjectKeysValueList();
 
 }

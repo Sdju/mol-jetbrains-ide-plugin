@@ -22,7 +22,7 @@ import com.zede.mol.viewTree.psi.ViewTreeTypes;
 
 LF= \n
 INDENT= \t
-NUMBER= \d+\.?\d*
+NUMBER= (\+|\-)?\d+\.?\d*
 VALUE_PREFIX= \\
 OPERATOR_LEFT_BIND= <=
 OPERATOR_RIGHT_BIND= >=
@@ -35,7 +35,13 @@ OPERATOR_LOCALISATION = @
 SPACE= [ ]
 NAME= [A-Za-z_][A-Za-z0-9_]*
 VALUE= [^\n]
-COMMENT= -[^\n]*
+COMMENT= -[ ][^\n]*
+CONST_TRUE= true
+CONST_FALSE= false
+CONST_NAN= NaN
+CONST_NULL= null
+CONST_UNDEFINED= undefined
+CONST_INFINITY= (\+|\-)?Infinity
 
 %column
 %state MAIN
@@ -54,6 +60,18 @@ COMMENT= -[^\n]*
     {COMMENT} { yybegin(MAIN); return ViewTreeTypes.COMMENT; }
 
     {NUMBER} { yybegin(MAIN); return ViewTreeTypes.NUMBER; }
+
+    {CONST_TRUE} { yybegin(MAIN); return ViewTreeTypes.CONST_TRUE; }
+
+    {CONST_FALSE} { yybegin(MAIN); return ViewTreeTypes.CONST_FALSE; }
+
+    {CONST_NAN} { yybegin(MAIN); return ViewTreeTypes.CONST_NAN; }
+
+    {CONST_NULL} { yybegin(MAIN); return ViewTreeTypes.CONST_NULL; }
+
+    {CONST_UNDEFINED} { yybegin(MAIN); return ViewTreeTypes.CONST_UNDEFINED; }
+
+    {CONST_INFINITY} { yybegin(MAIN); return ViewTreeTypes.CONST_INFINITY; }
 
     \${NAME} { yybegin(MAIN); return ViewTreeTypes.FQN_NAME; }
 

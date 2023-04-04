@@ -7,19 +7,20 @@ import com.intellij.openapi.editor.Document
 import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
-import com.intellij.psi.util.elementType
 import com.intellij.refactoring.suggested.endOffset
 import com.intellij.refactoring.suggested.startOffset
+import com.zede.mol.viewTree.psi.ViewTreeTypes
 import com.zede.mol.viewTree.psi.impl.ViewTreeArrayItemsValueImpl
 import com.zede.mol.viewTree.psi.impl.ViewTreeComponentAttributesImpl
+import com.zede.mol.viewTree.psi.impl.ViewTreeMultilineStringValueImpl
 import com.zede.mol.viewTree.psi.impl.ViewTreeObjectKeysValueImpl
-import java.util.Stack
 
 class ViewTreeFoldingBuilder : FoldingBuilderEx(), DumbAware {
     fun isFoldable(element: PsiElement): Boolean {
         return (element is ViewTreeArrayItemsValueImpl) ||
                 (element is ViewTreeComponentAttributesImpl) ||
-                (element is ViewTreeObjectKeysValueImpl)
+                (element is ViewTreeObjectKeysValueImpl) ||
+                (element is ViewTreeMultilineStringValueImpl)
     }
 
     fun applyDescriptors(element: PsiElement, descriptors: MutableList<FoldingDescriptor>) {
@@ -43,8 +44,12 @@ class ViewTreeFoldingBuilder : FoldingBuilderEx(), DumbAware {
             applyDescriptors(root, this)
         }.toTypedArray()
 
-    override fun getPlaceholderText(node: ASTNode): String? {
-        return " ... "
+    override fun getPlaceholderText(node: ASTNode): String {
+        if (node.elementType == ViewTreeTypes.MULTILINE_STRING_VALUE) {
+            val text = node.text
+            return text
+        }
+        return "..."
     }
 
     override fun isCollapsedByDefault(node: ASTNode): Boolean {
