@@ -641,7 +641,7 @@ class ViewTreeLexer implements FlexLexer {
           case 1:
             { CharSequence text = yytext();
         int dent = 0;
-        while (text.charAt(dent) == '\t') {
+        while (dent < yylength() && (text.charAt(dent) == '\t')) {
             dent += 1;
         }
         if (dent <= prevDent) {
