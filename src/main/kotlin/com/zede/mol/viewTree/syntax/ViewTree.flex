@@ -25,9 +25,10 @@ INDENT= \t
 NUMBER= (\+|\-)?\d+\.?\d*
 VALUE_PREFIX= \\
 OPERATOR_LEFT_BIND= <=
-OPERATOR_RIGHT_BIND= >=
+OPERATOR_RIGHT_BIND= =>
 OPERATOR_TWO_WAY_BIND= <=>
 OPERATOR_OBJECT= \*
+OPERATOR_PROPERTY_OBSOLET= \!
 OPERATOR_ARRAY= \/
 OPERATOR_REASSIGN = \^
 OPERATOR_ATOM = \?
@@ -45,6 +46,7 @@ CONST_INFINITY= (\+|\-)?Infinity
 
 %column
 %state MAIN
+%state COMMENT_CHECK
 %state WAITING_VALUE
 %state DENT
 %state DENT2
@@ -57,7 +59,7 @@ CONST_INFINITY= (\+|\-)?Infinity
 }
 
 <MAIN> {
-    {COMMENT} { yybegin(MAIN); return ViewTreeTypes.COMMENT; }
+    {COMMENT} { yybegin(COMMENT_CHECK); return ViewTreeTypes.COMMENT; }
 
     {NUMBER} { yybegin(MAIN); return ViewTreeTypes.NUMBER; }
 
@@ -85,6 +87,8 @@ CONST_INFINITY= (\+|\-)?Infinity
 
     {OPERATOR_OBJECT} { yybegin(MAIN); return ViewTreeTypes.OPERATOR_OBJECT; }
 
+    {OPERATOR_PROPERTY_OBSOLET} { yybegin(MAIN); return ViewTreeTypes.OPERATOR_PROPERTY_OBSOLET; }
+
     {OPERATOR_LEFT_BIND} { yybegin(MAIN); return ViewTreeTypes.OPERATOR_LEFT_BIND; }
 
     {OPERATOR_RIGHT_BIND} { yybegin(MAIN); return ViewTreeTypes.OPERATOR_RIGHT_BIND; }
@@ -98,6 +102,24 @@ CONST_INFINITY= (\+|\-)?Infinity
     {OPERATOR_LOCALISATION} { yybegin(MAIN); return ViewTreeTypes.OPERATOR_LOCALISATION; }
 }
 
+<COMMENT_CHECK> {
+    {LF} { return ViewTreeTypes.LF; }
+
+    [^\n]* {
+        CharSequence text = yytext();
+        int dent = 0;
+        while (text.charAt(dent) == '\t') {
+            dent += 1;
+        }
+        if (dent <= prevDent) {
+            yypushback(yylength());
+            yybegin(DENT);
+            continue;
+        }
+        return ViewTreeTypes.COMMENT;
+    }
+}
+
 <WAITING_VALUE> {VALUE}* { yybegin(MAIN); return ViewTreeTypes.VALUE; }
 
 <DENT, DENT2> {
@@ -105,16 +127,18 @@ CONST_INFINITY= (\+|\-)?Infinity
         int dent = yylength();
         if (dent == prevDent) {
             yybegin(dent == 0 ? YYINITIAL : MAIN);
-        } else if (dent > prevDent) {
+            continue;
+        }
+        if (dent > prevDent) {
             yybegin(MAIN);
             prevDent += 1;
             return ViewTreeTypes.INDENT;
-        } else {
-            yybegin(yystate() == DENT ? DENT2 : DENT);
-            prevDent -= 1;
-            yypushback(dent);
-            return ViewTreeTypes.DEDENT;
         }
+
+        yybegin(yystate() == DENT ? DENT2 : DENT);
+        prevDent -= 1;
+        yypushback(dent);
+        return ViewTreeTypes.DEDENT;
     }
 
     \n {

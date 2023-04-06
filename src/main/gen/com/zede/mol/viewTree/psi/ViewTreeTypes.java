@@ -32,6 +32,7 @@ public interface ViewTreeTypes {
   IElementType OPERATOR_LEFT_BIND = new ViewTreeTokenType("OPERATOR_LEFT_BIND");
   IElementType OPERATOR_LOCALISATION = new ViewTreeTokenType("OPERATOR_LOCALISATION");
   IElementType OPERATOR_OBJECT = new ViewTreeTokenType("OPERATOR_OBJECT");
+  IElementType OPERATOR_PROPERTY_OBSOLET = new ViewTreeTokenType("OPERATOR_PROPERTY_OBSOLET");
   IElementType OPERATOR_REASSIGN = new ViewTreeTokenType("OPERATOR_REASSIGN");
   IElementType OPERATOR_RIGHT_BIND = new ViewTreeTokenType("OPERATOR_RIGHT_BIND");
   IElementType OPERATOR_TWO_WAY_BIND = new ViewTreeTokenType("OPERATOR_TWO_WAY_BIND");

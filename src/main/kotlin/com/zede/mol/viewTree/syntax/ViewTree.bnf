@@ -17,7 +17,8 @@ viewTreeFile ::= (component|LF)*
 
 private gap ::= (SPACE+ COMMENT)? (COMMENT|LF)+
 private instance ::= NAME|FQN_NAME
-private multiplex ::= (OPERATOR_ATOM|OPERATOR_OBJECT) (SPACE* NAME)?
+private multiplex ::= (multiplexOperator (SPACE* NAME)?)+
+private multiplexOperator ::= OPERATOR_ATOM|OPERATOR_OBJECT|OPERATOR_PROPERTY_OBSOLET
 
 component ::= instance SPACE+ instance gap componentAttributes?
 componentAttributes ::= INDENT (componentAttribute)+ DEDENT
@@ -31,7 +32,7 @@ private numberValue ::= NUMBER gap
 private arrayValue ::= OPERATOR_ARRAY (NAME|FQN_NAME)? ((gap arrayItemsValue?)| SPACE+ componentValue)
 private objectValue ::= OPERATOR_OBJECT ((gap objectKeysValue) | SPACE+ componentAttribute*)
 
-multilineStringValue ::= LF INDENT (VALUE_PREFIX VALUE? LF)* DEDENT
+multilineStringValue ::= LF INDENT (VALUE_PREFIX VALUE? gap)* DEDENT
 arrayItemsValue ::= INDENT componentValue* DEDENT
 objectKeysValue ::= INDENT (OPERATOR_REASSIGN gap)? componentAttribute* DEDENT
 

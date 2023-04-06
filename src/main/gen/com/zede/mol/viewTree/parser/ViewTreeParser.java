@@ -465,7 +465,7 @@ public class ViewTreeParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // LF INDENT (VALUE_PREFIX VALUE? LF)* DEDENT
+  // LF INDENT (VALUE_PREFIX VALUE? gap)* DEDENT
   public static boolean multilineStringValue(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "multilineStringValue")) return false;
     if (!nextTokenIs(b, LF)) return false;
@@ -478,7 +478,7 @@ public class ViewTreeParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // (VALUE_PREFIX VALUE? LF)*
+  // (VALUE_PREFIX VALUE? gap)*
   private static boolean multilineStringValue_2(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "multilineStringValue_2")) return false;
     while (true) {
@@ -489,14 +489,14 @@ public class ViewTreeParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // VALUE_PREFIX VALUE? LF
+  // VALUE_PREFIX VALUE? gap
   private static boolean multilineStringValue_2_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "multilineStringValue_2_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, VALUE_PREFIX);
     r = r && multilineStringValue_2_0_1(b, l + 1);
-    r = r && consumeToken(b, LF);
+    r = r && gap(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
@@ -509,54 +509,70 @@ public class ViewTreeParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (OPERATOR_ATOM|OPERATOR_OBJECT) (SPACE* NAME)?
+  // (multiplexOperator (SPACE* NAME)?)+
   static boolean multiplex(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "multiplex")) return false;
-    if (!nextTokenIs(b, "", OPERATOR_ATOM, OPERATOR_OBJECT)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = multiplex_0(b, l + 1);
-    r = r && multiplex_1(b, l + 1);
+    while (r) {
+      int c = current_position_(b);
+      if (!multiplex_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "multiplex", c)) break;
+    }
     exit_section_(b, m, null, r);
     return r;
   }
 
-  // OPERATOR_ATOM|OPERATOR_OBJECT
+  // multiplexOperator (SPACE* NAME)?
   private static boolean multiplex_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "multiplex_0")) return false;
     boolean r;
-    r = consumeToken(b, OPERATOR_ATOM);
-    if (!r) r = consumeToken(b, OPERATOR_OBJECT);
+    Marker m = enter_section_(b);
+    r = multiplexOperator(b, l + 1);
+    r = r && multiplex_0_1(b, l + 1);
+    exit_section_(b, m, null, r);
     return r;
   }
 
   // (SPACE* NAME)?
-  private static boolean multiplex_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "multiplex_1")) return false;
-    multiplex_1_0(b, l + 1);
+  private static boolean multiplex_0_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "multiplex_0_1")) return false;
+    multiplex_0_1_0(b, l + 1);
     return true;
   }
 
   // SPACE* NAME
-  private static boolean multiplex_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "multiplex_1_0")) return false;
+  private static boolean multiplex_0_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "multiplex_0_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = multiplex_1_0_0(b, l + 1);
+    r = multiplex_0_1_0_0(b, l + 1);
     r = r && consumeToken(b, NAME);
     exit_section_(b, m, null, r);
     return r;
   }
 
   // SPACE*
-  private static boolean multiplex_1_0_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "multiplex_1_0_0")) return false;
+  private static boolean multiplex_0_1_0_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "multiplex_0_1_0_0")) return false;
     while (true) {
       int c = current_position_(b);
       if (!consumeToken(b, SPACE)) break;
-      if (!empty_element_parsed_guard_(b, "multiplex_1_0_0", c)) break;
+      if (!empty_element_parsed_guard_(b, "multiplex_0_1_0_0", c)) break;
     }
     return true;
+  }
+
+  /* ********************************************************** */
+  // OPERATOR_ATOM|OPERATOR_OBJECT|OPERATOR_PROPERTY_OBSOLET
+  static boolean multiplexOperator(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "multiplexOperator")) return false;
+    boolean r;
+    r = consumeToken(b, OPERATOR_ATOM);
+    if (!r) r = consumeToken(b, OPERATOR_OBJECT);
+    if (!r) r = consumeToken(b, OPERATOR_PROPERTY_OBSOLET);
+    return r;
   }
 
   /* ********************************************************** */

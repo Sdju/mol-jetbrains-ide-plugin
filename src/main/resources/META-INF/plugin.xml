@@ -32,11 +32,12 @@
         />
         <lang.parserDefinition language="ViewTree" implementationClass="com.zede.mol.viewTree.ViewTreeParserDefinition"/>
         <lang.syntaxHighlighterFactory language="ViewTree" implementationClass="com.zede.mol.viewTree.highlighter.ViewTreeSyntaxHighlighterFactory"/>
-        <colorSettingsPage implementation="com.zede.mol.viewTree.highlighter.ViewTreeColorSettingsPage"/>
+        <lang.foldingBuilder language="ViewTree" implementationClass="com.zede.mol.viewTree.ViewTreeFoldingBuilder"/>
+        <lang.commenter language="ViewTree" implementationClass="com.zede.mol.viewTree.ViewTreeCommenter"/>
 
+        <colorSettingsPage implementation="com.zede.mol.viewTree.highlighter.ViewTreeColorSettingsPage"/>
         <codeStyleSettingsProvider implementation="com.zede.mol.viewTree.ViewTreeCodeStyleSettingsProvider" />
         <langCodeStyleSettingsProvider implementation="com.zede.mol.viewTree.ViewTreeLanguageCodeStyleSettingsProvider" />
-        <lang.foldingBuilder language="ViewTree" implementationClass="com.zede.mol.viewTree.ViewTreeFoldingBuilder"/>
         <fileIndentOptionsProvider implementation="com.zede.mol.viewTree.ViewTreeFileTypeIndentOptionsProvider" />
 
         <!-- TREE LANGUAGE -->

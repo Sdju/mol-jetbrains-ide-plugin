@@ -34,6 +34,9 @@ class ViewTreeSyntaxHighlighter : SyntaxHighlighterBase() {
         if (tokenType == ViewTreeTypes.OPERATOR_OBJECT) {
             return OPERATOR_KEYS
         }
+        if (tokenType == ViewTreeTypes.OPERATOR_PROPERTY_OBSOLET) {
+            return OPERATOR_KEYS
+        }
         if (tokenType == ViewTreeTypes.OPERATOR_ARRAY) {
             return OPERATOR_KEYS
         }
